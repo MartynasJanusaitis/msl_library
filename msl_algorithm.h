@@ -16,7 +16,6 @@ static void msl_swap(void *a, void *b, size_t s)
 
 static void *msl_find(void *begin, void *end, size_t s, void *val)
 {
-    void *buffer = malloc(s);
     void *p;
 
     for(p = begin; p < end; p = (char*)p + s)
@@ -24,7 +23,6 @@ static void *msl_find(void *begin, void *end, size_t s, void *val)
         if(strncmp((char*)val, (char*)p, s) == 0) break;        
     }
 
-    free(buffer);
     return p;
 }
 
