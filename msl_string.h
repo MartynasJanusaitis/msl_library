@@ -14,6 +14,16 @@ typedef struct msl_string_header
     size_t capacity;
 }msl_string_header;
 
+static msl_string_header* msl_string_get_header(msl_string str);
+static msl_string msl_string_make_length(char* cstr, size_t length);
+static msl_string msl_string_make(char* str);
+static void msl_string_destroy(msl_string string);
+static msl_string msl_string_concat(msl_string str1, msl_string str2);
+static size_t msl_string_length(msl_string str);
+static size_t msl_string_capacity(msl_string str);
+static msl_string msl_string_erase(msl_string str, int index, int count);
+static msl_string msl_string_substring(msl_string str, int index, int count);
+
 static msl_string_header* msl_string_get_header(msl_string str)
 {
     return (msl_string_header*)str - 1;
@@ -41,8 +51,7 @@ static msl_string msl_string_make_length(char* cstr, size_t length)
 
 static msl_string msl_string_make(char* str)
 {
-    size_t length = strlen(str);
-    return msl_string_make_length(str, length);
+    return msl_string_make_length(str, strlen(str));
 }
 
 static void msl_string_destroy(msl_string string)
@@ -72,6 +81,22 @@ static size_t msl_string_length(msl_string str)
 static size_t msl_string_capacity(msl_string str)
 {
     return msl_string_get_header(str)->capacity;
+}
+
+static msl_string msl_string_erase(msl_string str, int index, int count)
+{
+    size_t length = msl_string_length(str);
+    msl_string newStr = msl_string_make_length(NULL, length - count);
+    
+    memcpy(newStr, str, index);
+    memcpy(newStr + index, str + index + count, length - index - count);
+    
+    return newStr;
+}
+
+static msl_string msl_string_substring(msl_string str, int index, int count)
+{
+    return msl_string_make_length((char*)str + index, count);
 }
 
 #endif
