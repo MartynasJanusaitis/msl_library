@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+static void msl_swap(void *a, void *b, size_t s);
+static void *msl_find(void *begin, void *end, size_t s, void *val);
+
 static void msl_swap(void *a, void *b, size_t s)
 {
     void *temp = malloc(s);
